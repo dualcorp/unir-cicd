@@ -1,6 +1,7 @@
 .PHONY: all $(MAKECMDGOALS)
 
 build:
+	pwd
 	docker build -t calculator-app .
 
 run:
@@ -14,6 +15,7 @@ interactive:
 
 test-unit:
 	mkdir -p results
+
 	docker run --rm --volume $PROYECTO_DIR:/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest pwd || true
 	docker run --rm --volume pwd:/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest ls -ltr || true
 	docker run --rm --volume ./:/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest pytest --cov --cov-report=xml:results/coverage.xml --cov-report=html:results/coverage --junit-xml=results/unit_result.xml -m unit || true

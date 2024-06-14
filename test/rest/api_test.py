@@ -109,16 +109,16 @@ class TestApi(unittest.TestCase):
             self.assertEqual(e.code, http.client.NOT_FOUND)
 
 
-    # def test_api_multiply_demuestra_fallo(self):
-    #     # Asume que cambias el permiso a otro usuario para esta prueba
-    #     url = f"{BASE_URL}/calc/multiply/5/6"
-    #     try:
-    #         response = urlopen(url, timeout=DEFAULT_TIMEOUT)
-    #         self.fail("HTTPError not raised")  
-    #     except HTTPError as e:
-    #         self.assertEqual(e.code, http.client.BAD_REQUEST)  
-    #         expected_error_msg = "User has no permissions"
-    #         self.assertIn(expected_error_msg, e.reason)  
+    def test_api_multiply_demuestra_fallo(self):
+        # Asume que cambias el permiso a otro usuario para esta prueba
+        url = f"{BASE_URL}/calc/multiply/5/6"
+        try:
+            response = urlopen(url, timeout=DEFAULT_TIMEOUT)
+            self.fail("HTTPError not raised")  
+        except HTTPError as e:
+            self.assertEqual(e.code, http.client.BAD_REQUEST)  
+            expected_error_msg = "User has no permissions"
+            self.assertIn(expected_error_msg, e.reason)  
 
 
 

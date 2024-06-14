@@ -127,3 +127,6 @@ jmeter-load:
 	docker run --rm --network calc-test-jmeter --volume `pwd`:/opt/jmeter -w /opt/jmeter calculator-jmeter jmeter -n -t test/jmeter/jmeter-plan.jmx -l results/jmeter_results.csv -e -o results/jmeter/
 	docker stop apiserver || true
 	docker network rm calc-test-zap || true
+
+
+	

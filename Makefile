@@ -1,7 +1,6 @@
 .PHONY: all $(MAKECMDGOALS)
 
 build:
-	pwd
 	docker build -t calculator-app .
 
 run:
@@ -14,12 +13,8 @@ interactive:
 	docker run -ti --rm --volume `pwd`:/opt/calc --env PYTHONPATH=/opt/calc  -w /opt/calc calculator-app:latest bash
 
 test-unit:
-	mkdir -p results
-
-	docker run --rm --volume /dockerapp/jenkins/jenkins2024/jenkins_home/workspace/Actividad03-Laboratorio:/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest pwd || true
-	docker run --rm --volume /dockerapp/jenkins/jenkins2024/jenkins_home/workspace/Actividad03-Laboratorio:/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest ls -ltr || true
-	docker run --rm --volume /dockerapp/jenkins/jenkins2024/jenkins_home/workspace/Actividad03-Laboratorio:/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest pytest --cov --cov-report=xml:results/coverage.xml --cov-report=html:results/coverage --junit-xml=results/unit_result.xml -m unit || true
-	docker run --rm --volume /dockerapp/jenkins/jenkins2024/jenkins_home/workspace/Actividad03-Laboratorio:/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest junit2html results/unit_result.xml results/unit_result.html
+	docker run --rm --volume `pwd`:/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest pytest --cov --cov-report=xml:results/coverage.xml --cov-report=html:results/coverage --junit-xml=results/unit_result.xml -m unit || true
+	docker run --rm --volume `pwd`:/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest junit2html results/unit_result.xml results/unit_result.html
 
 test-behavior:
 	docker run --rm --volume `pwd`:/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest behave --junit --junit-directory results/  --tags ~@wip test/behavior/
@@ -134,3 +129,4 @@ jmeter-load:
 	docker network rm calc-test-zap || true
 
 
+	
